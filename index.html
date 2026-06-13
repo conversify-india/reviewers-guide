@@ -230,6 +230,87 @@
             line-height: 1.6;
         }
 
+        /* ROADMAP COMPONENT */
+        .roadmap-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        .roadmap-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+        }
+
+        .roadmap-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            padding: 0 40px;
+        }
+
+        .roadmap-line {
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--border);
+            z-index: 1;
+        }
+
+        .roadmap-step-item {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 120px;
+        }
+
+        .roadmap-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            transition: 0.3s;
+        }
+
+        .roadmap-icon.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .phase-tag {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .step-text {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
         footer {
             margin-top: 8rem;
             border-top: 1px solid var(--border);
@@ -272,6 +353,39 @@
                 <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 2.5rem; line-height: 1.6;">
                     A systematic, zero-tolerance quality framework designed to filter out linguistic errors and ensure every file matches our premium delivery standards.
                 </p>
+
+                <!-- PROCESS ROADMAP -->
+                <div class="roadmap-container">
+                    <div class="roadmap-header"><i class="fas fa-route"></i> Process Roadmap</div>
+                    <div class="roadmap-grid">
+                        <div class="roadmap-line"></div>
+                        <div class="roadmap-step-item">
+                            <div class="roadmap-icon"><i class="fas fa-file-download"></i></div>
+                            <span class="phase-tag">Phase 1</span>
+                            <div class="step-text">Intake</div>
+                        </div>
+                        <div class="roadmap-step-item">
+                            <div class="roadmap-icon"><i class="fas fa-users"></i></div>
+                            <span class="phase-tag">Phase 2</span>
+                            <div class="step-text">Assign</div>
+                        </div>
+                        <div class="roadmap-step-item">
+                            <div class="roadmap-icon"><i class="fas fa-code-branch"></i></div>
+                            <span class="phase-tag">Phase 3</span>
+                            <div class="step-text">Review Path</div>
+                        </div>
+                        <div class="roadmap-step-item">
+                            <div class="roadmap-icon active"><i class="fas fa-search-plus"></i></div>
+                            <span class="phase-tag">Phase 4</span>
+                            <div class="step-text">QC Check</div>
+                        </div>
+                        <div class="roadmap-step-item">
+                            <div class="roadmap-icon"><i class="fas fa-paper-plane"></i></div>
+                            <span class="phase-tag">Final</span>
+                            <div class="step-text">Deliver</div>
+                        </div>
+                    </div>
+                </div>
 
                 <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem;">
                     <div>
