@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviewer & Quality Control Guide | Lingo Chaps</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --bg: #ffffff;
+            --sidebar-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --section-bg: #f8fafc;
+            --rule-bg: #fef2f2;
+            --rule-text: #991b1b;
+        }
+
+        body.dark-mode {
+            --bg: #0f172a;
+            --text-dark: #f1f5f9;
+            --text-light: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --card-bg: #1e293b;
+            --sidebar-bg: #111827;
+            --section-bg: #1e293b;
+            --rule-bg: rgba(239, 68, 68, 0.1);
+            --rule-text: #fca5a5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg);
+            line-height: 1.6;
+            transition: 0.3s;
+        }
+
+        header {
+            height: 64px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 1000;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: 0.2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .layout-container {
+            display: flex;
+            min-height: calc(100vh - 64px);
+        }
+
+        aside {
+            width: 300px;
+            border-right: 1px solid var(--border);
+            background: var(--sidebar-bg);
+            padding: 2rem 1rem;
+            position: sticky;
+            top: 64px;
+            height: calc(100vh - 64px);
+            overflow-y: auto;
+        }
+
+        .toc-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+        }
+
+        .collapsible-parent {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: var(--text-dark);
+            font-weight: 700;
+            transition: 0.3s;
+            margin-bottom: 5px;
+        }
+
+        .collapsible-parent:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .chevron {
+            transition: 0.3s transform;
+            color: var(--text-light);
+        }
+
+        .expanded .chevron {
+            transform: rotate(180deg);
+        }
+
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding-left: 20px;
+        }
+
+        .expanded+.submenu {
+            max-height: 800px;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+            transition: 0.2s;
+        }
+
+        .nav-item a:hover {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .nav-item a.active {
+            background: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        main {
+            flex: 1;
+            padding: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .briefing-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        .rule-card {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-left: 4px solid var(--danger);
+            background: var(--rule-bg);
+            color: var(--rule-text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            margin-top: 8rem;
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo">
+            <i class="fas fa-shield-halved"></i>
+            <span>Lingo Chaps Reviewers Portal</span>
+        </a>
+        <button class="theme-toggle" id="theme-toggle"><i class="fas fa-moon"></i></button>
+    </header>
+
+    <div class="layout-container">
+        <aside>
+            <p class="toc-title">Quality Assurance</p>
+            <div class="collapsible-parent expanded" id="qc-trigger">
+                <span><i class="fas fa-magnifying-glass"></i> Verification Loops</span>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="submenu">
+                <ul style="list-style: none;">
+                    <li class="nav-item"><a href="#qc-ops" class="active"><i class="fas fa-shield-halved" style="width: 16px; text-align: center;"></i> 1. Quality Control & Review</a></li>
+                    <li class="nav-item"><a href="#accuracy"><i class="fas fa-bullseye" style="width: 16px; text-align: center;"></i> 2. Accuracy Checklist</a></li>
+                    <li class="nav-item"><a href="#steps"><i class="fas fa-list-check" style="width: 16px; text-align: center;"></i> 3. Reviewer Steps</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main>
+            <!-- 1. QUALITY CONTROL & REVIEW OPERATIONS -->
+            <section id="qc-ops">
+                <h2>1. Quality Control & Review Operations</h2>
+                <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 2.5rem; line-height: 1.6;">
+                    A systematic, zero-tolerance quality framework designed to filter out linguistic errors and ensure every file matches our premium delivery standards.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem;">
+                    <div>
+                        <h4 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-light); margin-bottom:1rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+                            <i class="fas fa-check-circle" style="color:#10b981;"></i> Verification Steps
+                        </h4>
+                        <div style="display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:2rem;">
+                            <div style="border:1px solid var(--border); border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:10px; background:white;">
+                                <i class="fas fa-file-alt" style="color:#6366f1;"></i>
+                                <span style="font-size:0.85rem; color:#1e293b; font-weight:600;">Extract sample sentences from translated files</span>
+                            </div>
+                            <div style="border:1px solid var(--border); border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:10px; background:white;">
+                                <i class="fab fa-google" style="color:#ef4444;"></i>
+                                <span style="font-size:0.85rem; color:#1e293b; font-weight:600;">Cross-check using back-translation (Google Translate)</span>
+                            </div>
+                            <div style="border:1px solid var(--border); border-radius:12px; padding:12px 16px; display:flex; align-items:center; gap:10px; background:white;">
+                                <i class="fas fa-brain" style="color:#8b5cf6;"></i>
+                                <span style="font-size:0.85rem; color:#1e293b; font-weight:600;">Consult online dictionaries & terminology databases</span>
+                            </div>
+                        </div>
+
+                        <div style="background: #fff5f5; border: 2px solid #feb2b2; border-radius: 16px; padding: 1.5rem;">
+                            <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #ef4444; margin-bottom: 1rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-shield-alt"></i> MT Handling Protocol
+                            </h4>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <span style="font-size: 0.7rem; background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 6px; font-weight: 700;">1. STOP & FLAG</span>
+                                <span style="font-size: 0.7rem; background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 6px; font-weight: 700;">2. SEND BACK</span>
+                                <span style="font-size: 0.7rem; background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 6px; font-weight: 700;">3. ESCALATE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #fff1f2; border: 1px solid #fecaca; border-radius: 16px; padding: 1.5rem;">
+                        <h4 style="color: #be123c; margin-bottom: 1.5rem; font-size: 1rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-exclamation-circle"></i> Unbreakable Rules
+                        </h4>
+                        <ul style="list-style: none; font-size: 0.85rem; line-height: 1.6; padding: 0;">
+                            <li style="color: #9f1239; margin-bottom: 15px; display: flex; gap: 8px;">
+                                <i class="fas fa-times" style="color: #e11d48; margin-top: 4px;"></i>
+                                <span><b>Never skip QC:</b> Applies even for small 50-word tasks.</span>
+                            </li>
+                            <li style="color: #9f1239; margin-bottom: 15px; display: flex; gap: 8px;">
+                                <i class="fas fa-ban" style="color: #e11d48; margin-top: 4px;"></i>
+                                <span><b>Zero MT Policy:</b> Word-for-word copies will be rejected.</span>
+                            </li>
+                            <li style="color: #166534; font-weight: 700; display: flex; gap: 8px;">
+                                <i class="fas fa-check" style="color: #166534; margin-top: 4px;"></i>
+                                <span>Independent Review: Reviewer ≠ Translator.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. ACCURACY CHECKLIST -->
+            <section id="accuracy">
+                <h2>2. Translation Accuracy Check</h2>
+                <div class="briefing-card" style="background:rgba(99,102,241,0.03); border-top:4px solid #6366f1; border-radius: 24px; padding: 2.5rem;">
+                    <div style="display: flex; gap: 30px; margin-bottom: 2rem;">
+                        <div style="flex: 2;">
+                            <p style="font-size: 1.1rem; color: #1e293b; font-weight: 600; border-left: 3px solid #6366f1; padding-left: 1.5rem; line-height: 1.6; margin: 0;">
+                                "Verify excellence before the client sees it. Our internal QC is the final barrier against errors."
+                            </p>
+                        </div>
+                        <div style="background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 16px; padding: 1.5rem; flex: 1;">
+                            <h4 style="font-size: 0.95rem; color: #6366f1; font-weight: 800; margin: 0 0 10px 0; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-lightbulb"></i> Reviewer Tip
+                            </h4>
+                            <p style="font-size: 0.8rem; color: #4338ca; line-height: 1.6; margin: 0;">
+                                For specialized files (Legal, Medical), always verify domain-specific terms using glossary checklists.
+                            </p>
+                        </div>
+                    </div>
+
+                    <h4 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:var(--text-light); margin-bottom:1rem; font-weight:800;">What to Verify</h4>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                        <div style="border:1px solid var(--border); border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:12px; background:white;">
+                            <i class="fas fa-exchange-alt" style="color:#6366f1;"></i>
+                            <span style="font-size:0.85rem; color:#1e293b; font-weight: 700;">Meaning correct — no literal mismatch</span>
+                        </div>
+                        <div style="border:1px solid var(--border); border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:12px; background:white;">
+                            <i class="fas fa-search" style="color:#6366f1;"></i>
+                            <span style="font-size:0.85rem; color:#1e293b; font-weight: 700;">No missing content / skipped segments</span>
+                        </div>
+                        <div style="border:1px solid var(--border); border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:12px; background:white;">
+                            <i class="fas fa-hashtag" style="color:#6366f1;"></i>
+                            <span style="font-size:0.85rem; color:#1e293b; font-weight: 700;">Numbers, names, dates accurate</span>
+                        </div>
+                        <div style="border:1px solid var(--border); border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:12px; background:white;">
+                            <i class="fas fa-book" style="color:#6366f1;"></i>
+                            <span style="font-size:0.85rem; color:#1e293b; font-weight: 700;">Terminology fits project requirements</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. REVIEWER STEPS -->
+            <section id="steps">
+                <h2>3. Reviewer Operations — Step-by-Step</h2>
+                <div style="background: #ffffff; border: 1px solid #c7d2fe; border-radius: 24px; padding: 2.5rem; box-shadow: 0 10px 30px -5px rgba(99, 102, 241, 0.1);">
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Step 1 -->
+                        <div style="display: flex; gap: 20px;">
+                            <div style="flex-shrink: 0; width: 32px; height: 32px; background: #e0e7ff; color: #4338ca; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem;">1</div>
+                            <div style="background: #f8fafc; border-radius: 16px; padding: 1.2rem; flex-grow: 1; border: 1px solid #e2e8f0;">
+                                <h5 style="margin: 0 0 5px 0; font-size: 0.95rem; font-weight: 800; color: #1e293b;">File Preparation</h5>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b; line-height: 1.5;">Clean the file before upload. Fix layout formatting issues and remove manual breaks.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div style="display: flex; gap: 20px;">
+                            <div style="flex-shrink: 0; width: 32px; height: 32px; background: #e0e7ff; color: #4338ca; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem;">2</div>
+                            <div style="background: #f8fafc; border-radius: 16px; padding: 1.2rem; flex-grow: 1; border: 1px solid #e2e8f0;">
+                                <h5 style="margin: 0 0 5px 0; font-size: 0.95rem; font-weight: 800; color: #1e293b;">Project Setup in Phrase</h5>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b; line-height: 1.5;">Create the project in Phrase TMS and upload the prepared file to the workspace, attach TM, TB and run QA.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div style="display: flex; gap: 20px;">
+                            <div style="flex-shrink: 0; width: 32px; height: 32px; background: #e0e7ff; color: #4338ca; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem;">3</div>
+                            <div style="background: #f8fafc; border-radius: 16px; padding: 1.2rem; flex-grow: 1; border: 1px solid #e2e8f0;">
+                                <h5 style="margin: 0 0 5px 0; font-size: 0.95rem; font-weight: 800; color: #1e293b;">Linguistic QA Check & Verification</h5>
+                                <p style="margin: 0; font-size: 0.85rem; color: #64748b; line-height: 1.5;">Review errors (tags, numbers, terminology). Run translation checks to identify any machine translation usage.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div style="display: flex; gap: 20px;">
+                            <div style="flex-shrink: 0; width: 32px; height: 32px; background: #4f46e5; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem;">4</div>
+                            <div style="background: #eef2ff; border-radius: 16px; padding: 1.2rem; flex-grow: 1; border: 2px solid #c7d2fe;">
+                                <h5 style="margin: 0 0 5px 0; font-size: 0.95rem; font-weight: 800; color: #1e1b4b;">Approved for Handoff</h5>
+                                <p style="margin: 0; font-size: 0.85rem; color: #4338ca; line-height: 1.5; font-weight: 600;">Perform a final manual review of the exported file to ensure 100% quality and accuracy.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Setup simple scrolling nav handler
+        document.querySelectorAll('.nav-item a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                document.querySelectorAll('.nav-item a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                const target = document.querySelector(href);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Theme Toggle
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeBtn.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+    </script>
+</body>
+</html>
